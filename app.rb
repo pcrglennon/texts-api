@@ -1,20 +1,23 @@
 require 'sinatra'
 require 'sinatra/activerecord'
-require 'pry'
 
 class TextsApp < Sinatra::Base
   register Sinatra::ActiveRecordExtension
 
-  set :port, 8080
   set :show_exceptions, false
+
+  get '/' do
+    "It's an API"
+  end
 
   get '/contacts' do
     Contact.all.to_json
   end
 
   post '/contacts' do
-    contact = Contact.create(params[:contact])
-    contact.to_json
+    contact_data = JSON.parse(request.body.read, :symbolize_names => true)[:contact]
+    contact_data.select! { |k, v| [:name, :phone_number].include?(k) }
+    Contact.create(contact_data).to_json
   end
 end
 

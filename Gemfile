@@ -1,8 +1,11 @@
 source 'https://rubygems.org'
+ruby '2.2.2'
 
 gem 'sinatra-activerecord'
 gem 'pg'
 gem 'rake'
-gem 'pry-byebug'
-gem 'thin'
 
+group :development do
+  gem 'thin'
+  gem 'pry-byebug'
+end
