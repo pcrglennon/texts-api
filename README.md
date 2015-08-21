@@ -1,1 +1,1 @@
-Sinatra API for storing text message threads
+Sinatra API for storing text message threads.
