@@ -23,13 +23,15 @@ end
 
 class Contact < ActiveRecord::Base
   validates_presence_of :name, :phone_number
+  validates :phone_number, numericality: true
+  validates :phone_number, length: { is: 10 }
 
-  def phone_number
-    "(#{super[0..2]}) #{super[3..5]}-#{super[6..9]}"
-  end
+  before_validation :normalize_phone_number
 
-  def phone_number=(number)
-    super(number.gsub(/\D/, ''))
+  private
+
+  def normalize_phone_number
+    self.phone_number.gsub!(/\D/, '') if self.phone_number.present?
   end
 end
 
