@@ -3,6 +3,9 @@ require 'spec_helper'
 RSpec.describe Contact, type: :model do
   subject { Contact.new }
 
+  describe 'relationships' do
+    it { should have_many(:messages) }
+  end
   describe 'validations' do
     describe 'name' do
       it { should validate_presence_of(:name) }

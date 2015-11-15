@@ -1,6 +1,8 @@
 require 'sinatra'
 require 'sinatra/activerecord'
 
+ActiveRecord::Base.logger.level = 1
+
 class TextsApp < Sinatra::Base
   register Sinatra::ActiveRecordExtension
 
@@ -28,10 +30,17 @@ class Contact < ActiveRecord::Base
 
   before_validation :normalize_phone_number
 
+  has_many :messages
+
   private
 
   def normalize_phone_number
     self.phone_number.gsub!(/\D/, '') if self.phone_number.present?
   end
+end
+
+class Message < ActiveRecord::Base
+  validates_presence_of :content, :contact_id
+  belongs_to :contact
 end
 
